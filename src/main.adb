@@ -18,7 +18,7 @@ procedure Main is
       end New_Item;
    end Items;
 
-
+   package Client is new Items(Hash_Store.Data);
 begin
 
 
