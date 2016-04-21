@@ -46,4 +46,9 @@ package body Hash_Store is
          raise KV_Store.No_Key_Error;
       end if;
    end Remove;
+
+   procedure Commit (Self : in out Data) is
+   begin
+      null;
+   end Commit;
 end Hash_Store;

@@ -12,7 +12,7 @@ package Hash_Store is
       Hash            => Ada.Strings.Unbounded.Hash,
       Equivalent_Keys => "=");
 
-   type Data is abstract new KV_Store.KV_Container with record
+   type Data is new KV_Store.KV_Container with record
       Values   : KV_Map.Map;
       Modified : Boolean := False;
    end record;
@@ -23,4 +23,5 @@ package Hash_Store is
    function Get (Self : in out Data; Key : String) return String;
    function Contains (Self : Data; Key : String) return Boolean;
    procedure Remove (Self : in out Data; Key : String);
+   procedure Commit (Self : in out Data);
 end Hash_Store;
