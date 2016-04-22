@@ -2,7 +2,7 @@ package KV_Store is
    type KV_Container is interface;
    No_Key_Error : exception;
 
-   procedure Setup (self : out KV_Container) is abstract;
+   procedure Setup (self : in out KV_Container) is abstract;
 
    procedure Cleanup (Self : in out KV_Container) is abstract;
 

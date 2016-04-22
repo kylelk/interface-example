@@ -17,11 +17,17 @@ package Hash_Store is
       Modified : Boolean := False;
    end record;
 
-   procedure Setup (self : out Data);
+   procedure Setup (self : in out Data);
+
    procedure Cleanup (self : in out Data);
+
    procedure Set (Self : in out Data; Key, Value : String);
+
    function Get (Self : in out Data; Key : String) return String;
+
    function Contains (Self : Data; Key : String) return Boolean;
+
    procedure Remove (Self : in out Data; Key : String);
+
    procedure Commit (Self : in out Data);
 end Hash_Store;

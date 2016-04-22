@@ -1,5 +1,5 @@
 package body Hash_Store is
-   procedure Setup (self : out Data) is
+   procedure Setup (self : in out Data) is
    begin
       null;
    end Setup;
