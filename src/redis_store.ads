@@ -8,9 +8,7 @@ with KV_Store;
 with GNATCOLL_JSON;
 
 package Redis_Store is
-
-
-   type Data is new KV_Store.KV_Container with record
+   type Data is new KV_Store.KV_Interface with record
       Address : GNAT.Sockets.Sock_Addr_Type;
       Socket  : GNAT.Sockets.Socket_Type;
       Defined_Server : Boolean := False;

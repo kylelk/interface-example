@@ -12,7 +12,7 @@ package Hash_Store is
       Hash            => Ada.Strings.Unbounded.Hash,
       Equivalent_Keys => "=");
 
-   type Data is new KV_Store.KV_Container with record
+   type Data is new KV_Store.KV_Interface with record
       Values   : KV_Map.Map;
       Modified : Boolean := False;
    end record;

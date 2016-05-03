@@ -6,45 +6,47 @@ with Redis_Store;
 procedure Main is
    package TIO renames Ada.Text_IO;
 
-   generic
-      type Data_Store is new KV_Store.KV_Container with private;
    package Items is
-      procedure Init(Self : in out Data_Store);
-      procedure Done(Self : in out Data_Store);
-      procedure New_Item(Self : in out Data_Store; Key, Value : String);
-      function Get_Item(Self : in out Data_Store; Key : String) return String;
+      use KV_Store;
+      procedure Init(Data : in out KV_Interface'Class);
+      procedure Done(Data : in out KV_Interface'Class);
+      procedure New_Item(Data : in out KV_Interface'Class; Key, Value : String);
+      function Get_Item(Data : in out KV_Interface'Class; Key : String) return String;
    end Items;
 
    package body Items is
-      procedure Init(Self : in out Data_Store) is
+      procedure Init(Data : in out KV_Interface'Class) is
       begin
-         Self.Setup;
+         Data.Setup;
       end Init;
 
-      procedure Done(Self : in out Data_Store) is
+      procedure Done(Data : in out KV_Interface'Class) is
       begin
-         Self.Cleanup;
+         Data.Cleanup;
       end Done;
 
-      procedure New_Item(Self : in out Data_Store; Key, Value : String) is
+      procedure New_Item(Data : in out KV_Interface'Class; Key, Value : String) is
       begin
-         Self.Set(Key, Value);
+         Data.Set(Key, Value);
       end New_Item;
 
-      function Get_Item(Self : in out Data_Store; Key : String) return String is
+      function Get_Item(Data : in out KV_Interface'Class; Key : String) return String is
       begin
-         return Self.Get(Key);
+         return Data.Get(Key);
       end Get_Item;
    end Items;
 
-   Data : Redis_Store.Data;
-   package Client is new Items(Redis_Store.Data);
+   Data : Hash_Store.Data;
 begin
-   Data.Set_Server(Host      => "127.0.0.1",
-                         Port      => 6379,
-                         Namespace => "interface_example:");
+   -- initalize the data store
+   Items.Init(Data);
 
-   Client.Init(Data);
-   Client.New_Item(Data, "test", "hello " & ASCII.LF & ASCII.CR & " world");
-   Client.Done(Data);
+   -- create a new item
+   Items.New_Item(Data, "test", "hello world");
+
+   -- get an item by it's key name
+   TIO.Put_Line(Items.Get_Item(Data, "test"));
+
+   -- close the data store
+   Items.Done(Data);
 end Main;
